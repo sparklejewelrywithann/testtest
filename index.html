@@ -24,10 +24,30 @@
 button:hover {
   background-color: #a17854; /* dunkler beim Hover */
 }
+.logo-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.logo-container img {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #b08e6d;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 
   </style>
 </head>
 <body>
+  <div class="logo-container">
+  <img src="logo.webp" alt="Ann's Jewelry Logo" />
+</div>
+
   <h1>Sparkle Jewelry With Ann</h1>
 
   <div class="product">
