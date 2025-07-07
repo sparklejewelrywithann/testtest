@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Sparkle Jewelry With Ann</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #fffaf8; color: #5a005a; }
+    .product { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 6px; background: #fff; }
+    img { width: 150px; border-radius: 6px; }
+    button { padding: 10px; margin-top: 10px; background: #ffc439; border: none; cursor: pointer; font-weight: bold;}
+    #cart { margin-top: 2rem; padding: 1.5rem; background: #fff8f8; border: 2px dashed #ffc0cb; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Sparkle Jewelry With Ann</h1>
+
+  <div class="product">
+    <h2>Makramee-Armband mit Seestern</h2>
+    <img src="armband.jpg" alt="Makramee Armband">
+    <label for="armband-farbe">Wähle eine Farbe:</label>
+<select id="armband-farbe" name="armband-farbe">
+  <option value="gelb">Gelb</option>
+  <option value="rot">Rot</option>
+  <option value="flieder">Flieder</option>
+  <option value="rosa">Rosa</option>
+  <option value="blau">Blau</option>
+  <option value="gruen">Grün</option>
+  <option value="braun">Braun</option>
+  <option value="schwarz">Schwarz</option>
+</select>
+    <p>Preis: 6,90 €</p>
+    <button onclick="addToCart('Makramee-Armband mit Seestern', 6.90)">In den Warenkorb</button>
+  </div>
+  <!-- Weitere Produkte können hier hinzugefügt werden mit gleichem Muster -->
+
+  <div id="cart">
+    <h2>🛒 Dein Warenkorb</h2>
+    <ul id="cartItems"></ul>
+    <p id="cartTotal"></p>
+  </div>
+
+  <div id="paypal-button-container" style="margin-top: 20px;"></div>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+  <script>
+    // Warenkorb als Array von Objekten
+    let cart = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById("cartItems");
+      cartList.innerHTML = '';
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} – ${item.price.toFixed(2)} €`;
+        cartList.appendChild(li);
+      });
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById("cartTotal").textContent = "Gesamt: " + total.toFixed(2) + " €";
+    }
+
+    // PayPal-Button erzeugen und immer den aktuellen Warenkorb-Gesamtwert nutzen
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+        if (total == 0) {
+          alert("Dein Warenkorb ist leer!");
+          return;
+        }
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: total
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Danke, ' + details.payer.name.given_name + '! Zahlung erfolgreich.');
+          cart = [];
+          renderCart();
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+</body>
+</html>
