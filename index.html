@@ -70,10 +70,62 @@ button:hover {
   color: #001133; /* dunkles Blau */
 }   
   </style>
+  .login-form {
+  position: absolute;
+  top: 120px;
+  right: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 999;
+  width: 250px;
+}
+
+.login-form h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffc439;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #e6ae00;
+}
 </head>
 <body>
   <div class="logo-container">
   <img src="logo.webp" alt="Ann's Jewelry Logo" />
+</div>
+  <!-- Anmeldeformular (zuerst versteckt) -->
+<div id="login-form" style="display:none;" class="login-form">
+  <h2>Anmelden</h2>
+  <form>
+    <label for="email">E-Mail:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Passwort:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">Einloggen</button>
+  </form>
 </div>
   <header class="banner">
   <h1>
@@ -154,5 +206,15 @@ button:hover {
       }
     }).render('#paypal-button-container');
   </script>
+  <script>
+  document.querySelector('.logo-container img').addEventListener('click', function () {
+    const loginForm = document.getElementById('login-form');
+    if (loginForm.style.display === 'none') {
+      loginForm.style.display = 'block';
+    } else {
+      loginForm.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
