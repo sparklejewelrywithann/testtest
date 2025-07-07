@@ -11,7 +11,10 @@
     img { width: 150px; border-radius: 6px; }
     button { padding: 10px; margin-top: 10px; background: #ffc439; border: none; cursor: pointer; font-weight: bold;}
     #cart { margin-top: 2rem; padding: 1.5rem; background: #fff8f8; border: 2px dashed #ffc0cb; border-radius: 10px; }
- h1 {
+<body>
+  <header class="banner">
+    <h1>Sparkle Jewelry With Ann</h1>
+  </header>
   font-family: 'Pacifico', cursive;
   font-size: 2.5rem;
   text-align: center;
@@ -27,6 +30,27 @@
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.3s ease;
+}
+.banner {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  background-image: url('muschel.banner.png'); /* Passe ggf. den Dateinamen an */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner h1 {
+  color: #002366;
+  font-family: 'Pacifico', cursive;
+  font-size: 3em;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-shadow: 1px 1px 5px rgba(255,255,255,0.8);
 }
 
 button:hover {
