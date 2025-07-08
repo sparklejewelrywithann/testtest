@@ -233,7 +233,7 @@ button:hover {
 <!-- Dieses versteckte Feld übergibt die Farbe an den Warenkorb -->
 
     <p>Preis: 6,90 €</p>
-    <button onclick="addToCart('Makramee-Armband mit Seestern', 6.90)">In den Warenkorb</button>
+    <button onclick="addToCartMitFarbe()">In den Warenkorb</button>
   </div>
   <!-- Weitere Produkte können hier hinzugefügt werden mit gleichem Muster -->
 
@@ -248,18 +248,20 @@ button:hover {
   <script>
     // Warenkorb als Array von Objekten
     let cart = [];
+    
+function addToCart(name, price) {
+  const selectedColor = document.querySelector('input[name="armband-farbe"]:checked');
+  const color = selectedColor ? selectedColor.value : 'Keine Farbe';
 
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      renderCart();
-    }
-
+  cart.push({ name, price, color }); // ✅ jetzt mit Farbe!
+  renderCart();
+}
     function renderCart() {
       const cartList = document.getElementById("cartItems");
       cartList.innerHTML = '';
       cart.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${item.name} – ${item.price.toFixed(2)} €`;
+       li.textContent = `${item.name} – Farbe: ${item.color} – ${item.price.toFixed(2)} €`;
         cartList.appendChild(li);
       });
       const total = cart.reduce((sum, item) => sum + item.price, 0);
