@@ -121,6 +121,34 @@ button:hover {
 .login-form button:hover {
   background-color: #e6ae00;
 }
+    .color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.color-button {
+  padding: 8px 12px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 70px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.color-button:hover {
+  transform: scale(1.05);
+  border-color: #666;
+}
+
+.color-button.selected {
+  border: 3px solid #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+    
   </style>
 </head>
 <body>
@@ -149,18 +177,21 @@ button:hover {
 </header>
   <div class="product">
     <h2>Makramee-Armband mit Seestern</h2>
-    <img src="armband.jpg" alt="Makramee Armband">
-    <label for="armband-farbe">Wähle eine Farbe:</label>
-<select id="armband-farbe" name="armband-farbe">
-  <option value="gelb">Gelb</option>
-  <option value="rot">Rot</option>
-  <option value="flieder">Flieder</option>
-  <option value="rosa">Rosa</option>
-  <option value="blau">Blau</option>
-  <option value="gruen">Grün</option>
-  <option value="braun">Braun</option>
-  <option value="schwarz">Schwarz</option>
-</select>
+   <label for="armband-farbe">Wähle eine Farbe:</label>
+<div class="color-picker">
+  <button class="color-button" data-color="gelb" style="background-color: yellow;">Gelb</button>
+  <button class="color-button" data-color="rot" style="background-color: red;">Rot</button>
+  <button class="color-button" data-color="flieder" style="background-color: violet;">Flieder</button>
+  <button class="color-button" data-color="rosa" style="background-color: pink;">Rosa</button>
+  <button class="color-button" data-color="blau" style="background-color: blue; color: white;">Blau</button>
+  <button class="color-button" data-color="gruen" style="background-color: green; color: white;">Grün</button>
+  <button class="color-button" data-color="braun" style="background-color: brown; color: white;">Braun</button>
+  <button class="color-button" data-color="schwarz" style="background-color: black; color: white;">Schwarz</button>
+</div>
+
+<!-- Dieses versteckte Feld übergibt die Farbe an den Warenkorb -->
+<input type="hidden" id="armband-farbe" name="armband-farbe" value="">
+
     <p>Preis: 6,90 €</p>
     <button onclick="addToCart('Makramee-Armband mit Seestern', 6.90)">In den Warenkorb</button>
   </div>
@@ -230,5 +261,29 @@ button:hover {
     }
   });
 </script>
+  <script>
+  const colorButtons = document.querySelectorAll('.color-button');
+  const hiddenInput = document.getElementById('armband-farbe');
+
+  colorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      colorButtons.forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+      hiddenInput.value = button.getAttribute('data-color');
+    });
+  });
+</script>
+
+<script>
+  document.querySelector('.logo-container img').addEventListener('click', function () {
+    const loginForm = document.getElementById('login-form');
+    if (loginForm.style.display === 'none') {
+      loginForm.style.display = 'block';
+    } else {
+      loginForm.style.display = 'none';
+    }
+  });
+</script>
+
 </body>
 </html>
