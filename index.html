@@ -186,7 +186,12 @@ button:hover {
 </h1>
 </header>
   <div class="product">
-    <h2>Makramee-Armband mit Seestern</h2>
+    <!-- Armband-Bild-Anzeige -->
+<div id="armband-bild-container">
+  <img id="armband-bild" src="bilder/armband_rot.png" alt="Armband in Farbe" style="width: 100%; max-width: 400px; display: block; margin: 0 auto 20px auto;" />
+</div>
+
+    <h2>Makramee-Armband</h2>
    <label for="armband-farbe">Wähle eine Farbe:</label>
 <div class="color-picker">
   <label class="color-option">
@@ -303,6 +308,18 @@ function addToCart(name, price) {
     }
   });
 <script>
+<script>
+  const farbRadios = document.querySelectorAll('input[name="armband-farbe"]');
+  const bild = document.getElementById('armband-bild');
+
+  farbRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      const farbe = radio.value;
+      bild.src = `bilder/armband_${farbe}.png`;
+      bild.alt = `Armband in ${farbe}`;
+    });
+  });
+</script>
 
 </body>
 </html>
