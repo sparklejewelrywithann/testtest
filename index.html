@@ -257,8 +257,26 @@ button:hover {
 
 <!-- Dieses versteckte Feld übergibt die Farbe an den Warenkorb -->
 
+  <h3>Wähle einen Anhänger:</h3>
+<div id="anhaenger-picker">
+  <label><input type="radio" name="anhaenger" value="flosse_glitzer" onclick="setAnhänger('flosse_glitzer')"> Flosse mit Glitzer</label><br>
+  <label><input type="radio" name="anhaenger" value="muschel_glitzer" onclick="setAnhänger('muschel_glitzer')"> Gedrehte Muschel mit Glitzer</label><br>
+  <label><input type="radio" name="anhaenger" value="seestern_gold" onclick="setAnhänger('seestern_gold')"> Seestern Gold</label><br>
+  <label><input type="radio" name="anhaenger" value="seestern_silber" onclick="setAnhänger('seestern_silber')"> Seestern Silber</label><br>
+  <label><input type="radio" name="anhaenger" value="kauri_gold" onclick="setAnhänger('kauri_gold')"> Kauri Muschel Gold</label><br>
+  <label><input type="radio" name="anhaenger" value="kauri" onclick="setAnhänger('kauri')"> Kauri Muschel</label><br>
+  <label><input type="radio" name="anhaenger" value="seestern_sand" onclick="setAnhänger('seestern_sand')"> Seestern im Sand</label><br>
+  <label><input type="radio" name="anhaenger" value="gedrehte_muschel" onclick="setAnhänger('gedrehte_muschel')"> Gedrehte Muschel</label><br>
+  <label><input type="radio" name="anhaenger" value="offen_perle1" onclick="setAnhänger('offen_perle1')"> Offene Muschel mit Perle 1</label><br>
+  <label><input type="radio" name="anhaenger" value="offen_perle2" onclick="setAnhänger('offen_perle2')"> Offene Muschel mit Perle 2</label><br>
+  <label><input type="radio" name="anhaenger" value="gross1" onclick="setAnhänger('gross1')"> Große Muschel 1</label><br>
+  <label><input type="radio" name="anhaenger" value="gross2" onclick="setAnhänger('gross2')"> Große Muschel 2</label><br>
+  <label><input type="radio" name="anhaenger" value="miesmuschel" onclick="setAnhänger('miesmuschel')"> Miesmuschel</label><br>
+  <label><input type="radio" name="anhaenger" value="zebra" onclick="setAnhänger('zebra')"> Zebra Muschel</label><br>
+</div>
+
     <p>Preis: 6,90 €</p>
-  <button onclick="addToCart('Armband', 6.90)">In den Warenkorb</button>
+  <button onclick="addToCart(6.90)">In den Warenkorb</button>
   </div>
   <!-- Weitere Produkte können hier hinzugefügt werden mit gleichem Muster -->
 
@@ -273,22 +291,49 @@ button:hover {
   <script>
     // Warenkorb als Array von Objekten
     let cart = [];
-    
-function addToCart(name, price) {
-  const selectedColor = document.querySelector('input[name="armband-farbe"]:checked');
-  const color = selectedColor ? selectedColor.value : 'Keine Farbe';
+    function addToCart(name, price) {
+  const selectedColor = currentColor || "Keine Farbe";
+  const selectedAnhängerName = selectedAnhänger || "Kein Anhänger";
 
-  cart.push({ name, price, color }); // ✅ jetzt mit Farbe!
+  cart.push({
+    name,
+    price,
+    color: selectedColor,
+    anhaenger: selectedAnhängerName
+  });
+
   renderCart();
 }
-    function renderCart() {
-      const cartList = document.getElementById("cartItems");
-      cartList.innerHTML = '';
-      cart.forEach(item => {
-        const li = document.createElement("li");
-       li.textContent = `${item.name} – Farbe: ${item.color} – ${item.price.toFixed(2)} €`;
-        cartList.appendChild(li);
-      });
+ function renderCart() {
+  const cartList = document.getElementById("cartItems");
+  cartList.innerHTML = "";
+
+  cart.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${item.name} – Farbe: ${item.color}, Anhänger: ${item.anhaenger} – ${item.price.toFixed(2)} €`;
+
+    // 🗑️ Löschen-Button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Entfernen";
+    deleteBtn.style.marginLeft = "10px";
+    deleteBtn.onclick = () => {
+      cart.splice(index, 1);
+      renderCart();
+    };
+
+    li.appendChild(deleteBtn);
+    cartList.appendChild(li);
+  });
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  document.getElementById("cartTotal").textContent = `Gesamt: ${total.toFixed(2)} €`;
+}
+
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  document.getElementById("cartTotal").textContent = `Gesamt: ${total.toFixed(2)} €`;
+}
+
       const total = cart.reduce((sum, item) => sum + item.price, 0);
       document.getElementById("cartTotal").textContent = "Gesamt: " + total.toFixed(2) + " €";
     }
@@ -321,15 +366,154 @@ function addToCart(name, price) {
     
   <script>
 const images = {
-  blau: ["bilder/blau1.png", "bilder/blau2.png"],
-  braun: ["bilder/braun1.png", "bilder/braun2.png"],
-  flieder: ["bilder/flieder1.png", "bilder/flieder2.png"],
-  gelb: ["bilder/gelb1.png", "bilder/gelb2.png"],
-  gruen: ["bilder/gruen1.png", "bilder/gruen2.png"],
-  rosa: ["bilder/rosa1.png", "bilder/rosa2.png"],
-  rot: ["bilder/rot1.png", "bilder/rot2.png"],
-  schwarz: ["bilder/schwarz1.png", "bilder/schwarz2.png"]
+  rot: {
+    default: ["bilder/rot1.png", "bilder/rot2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-rot.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-rot.png"],
+    "seestern-gold": ["bilder/seestern-gold-rot.png"],
+    "seestern-silber": ["bilder/seestern-silber-rot.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-rot.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-rot.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-rot.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-rot.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-rot.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-rot.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-rot.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-rot.png"],
+    "miesmuschel": ["bilder/miesmuschel-rot.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-rot.png"]
+  },
+  blau: {
+    default: ["bilder/blau1.png", "bilder/blau2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-blau.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-blau.png"],
+    "seestern-gold": ["bilder/seestern-gold-blau.png"],
+    "seestern-silber": ["bilder/seestern-silber-blau.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-blau.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-blau.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-blau.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-blau.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-blau.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-blau.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-blau.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-blau.png"],
+    "miesmuschel": ["bilder/miesmuschel-blau.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-blau.png"]
+  },
+   grün: {
+    default: ["bilder/grün1.png", "bilder/grün2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-grün.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-grün.png"],
+    "seestern-gold": ["bilder/seestern-gold-grün.png"],
+    "seestern-silber": ["bilder/seestern-silber-grün.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-grün.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-grün.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-grün.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-grün.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-grün.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-grün.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-grün.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-grün.png"],
+    "miesmuschel": ["bilder/miesmuschel-grün.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-grün.png"]
+  },
+  gelb: {
+    default: ["bilder/gelb1.png", "bilder/gelb2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-gelb.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-gelb.png"],
+    "seestern-gold": ["bilder/seestern-gold-gelb.png"],
+    "seestern-silber": ["bilder/seestern-silber-gelb.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-gelb.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-gelb.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-gelb.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-gelb.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-gelb.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-gelb.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-gelb.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-gelb.png"],
+    "miesmuschel": ["bilder/miesmuschel-gelb.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-gelb.png"]
+  },
+  braun: {
+    default: ["bilder/braun1.png", "bilder/braun2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-braun.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-braun.png"],
+    "seestern-gold": ["bilder/seestern-gold-braun.png"],
+    "seestern-silber": ["bilder/seestern-silber-braun.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-braun.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-braun.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-braun.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-braun.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-braun.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-braun.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-braun.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-braun.png"],
+    "miesmuschel": ["bilder/miesmuschel-braun.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-braun.png"]
+  },
+  schwarz: {
+    default: ["bilder/schwarz1.png", "bilder/schwarz2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-schwarz.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-schwarz.png"],
+    "seestern-gold": ["bilder/seestern-gold-schwarz.png"],
+    "seestern-silber": ["bilder/seestern-silber-schwarz.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-schwarz.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-schwarz.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-schwarz.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-schwarz.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-schwarz.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-schwarz.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-schwarz.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-schwarz.png"],
+    "miesmuschel": ["bilder/miesmuschel-schwarz.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-schwarz.png"]
+  },
+
+   flieder: {
+    default: ["bilder/flieder1.png", "bilder/flieder2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-flieder.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-flieder.png"],
+    "seestern-gold": ["bilder/seestern-gold-flieder.png"],
+    "seestern-silber": ["bilder/seestern-silber-flieder.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-flieder.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-flieder.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-flieder.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-flieder.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-flieder.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-flieder.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-flieder.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-flieder.png"],
+    "miesmuschel": ["bilder/miesmuschel-flieder.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-flieder.png"]
+  },
+  rosa: {
+    default: ["bilder/rosa1.png", "bilder/rosa2.png"],
+    "flosse-glitzer": ["bilder/flosse-glitzer-rosa.png"],
+    "gedrehte-muschel-glitzer": ["bilder/gedrehte-muschel-glitzer-rosa.png"],
+    "seestern-gold": ["bilder/seestern-gold-rosa.png"],
+    "seestern-silber": ["bilder/seestern-silber-rosa.png"],
+    "kauri-muschel-gold": ["bilder/kauri-muschel-gold-rosa.png"],
+    "kauri-muschel": ["bilder/kauri-muschel-rosa.png"],
+    "seestern-im-sand": ["bilder/seestern-im-sand-rosa.png"],
+    "gedrehte-muschel": ["bilder/gedrehte-muschel-rosa.png"],
+    "offene-muschel-perle1": ["bilder/offene-muschel-perle1-rosa.png"],
+    "offene-muschel-perle2": ["bilder/offene-muschel-perle2-rosa.png"],
+    "grosse-muschel1": ["bilder/grosse-muschel1-rosa.png"],
+    "grosse-muschel2": ["bilder/grosse-muschel2-rosa.png"],
+    "miesmuschel": ["bilder/miesmuschel-rosa.png"],
+    "zebra-muschel": ["bilder/zebra-muschel-rosa.png"]
+  }
 };
+</script>
+let selectedAnhänger = null;
+
+function setAnhänger(anhänger) {
+  selectedAnhänger = anhänger;
+  updateImage();
+}
+
+  <script>
+
 
 let currentColor = "rot";
 let currentIndex = 0;
