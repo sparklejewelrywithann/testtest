@@ -165,6 +165,17 @@ button:hover {
 .color-option input[type="radio"]:checked + .color-label {
   border: 2px solid #000;
 }
+    <style>
+#main-image {
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1;
+}
+
+#main-image.fade-out {
+  opacity: 0;
+}
+</style>
+
   </style>
 </head>
 <body>
@@ -327,10 +338,15 @@ function setColor(color) {
   currentIndex = 0;
   updateImage();
 }
-
+    
 function updateImage() {
   const img = document.getElementById("main-image");
-  img.src = images[currentColor][currentIndex];
+  img.classList.add("fade-out");
+
+  setTimeout(() => {
+    img.src = images[currentColor][currentIndex];
+    img.classList.remove("fade-out");
+  }, 200);
 }
 
 function prevImage() {
