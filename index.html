@@ -194,49 +194,51 @@ button:hover {
   <div class="product">
     <!-- Armband-Bild-Anzeige -->
 <div id="armband-bild-container">
-  <img id="armband-bild" src="bilder/armband_rot.png" alt="Armband in Farbe" style="width: 100%; max-width: 400px; display: block; margin: 0 auto 20px auto;" />
-</div>
-
+<div id="image-slider" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
+  <button onclick="prevImage()" style="font-size: 1.5rem;">❮</button>
+  <img id="main-image" src="bilder/rot1.png" alt="Armband in Farbe" style="width: 100%; max-width: 400px; display: block;" />
+  <button onclick="nextImage()" style="font-size: 1.5rem;">❯</button>
+</div>  
     <h2>Makramee-Armband</h2>
    <label for="armband-farbe">Wähle eine Farbe:</label>
 <div class="color-picker">
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="gelb">
+   <input type="radio" name="armband-farbe" value="gelb" onclick="setColor('gelb')">
     <span class="color-label">Gelb <span class="color-box" style="background-color: yellow;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="rot">
+   <input type="radio" name="armband-farbe" value="rot" onclick="setColor('rot')"> 
     <span class="color-label">Rot <span class="color-box" style="background-color: red;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="flieder">
+    <input type="radio" name="armband-farbe" value="flieder" onclick="setColor('flieder')">
     <span class="color-label">Flieder <span class="color-box" style="background-color: violet;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="rosa">
+    <input type="radio" name="armband-farbe" value="rosa" onclick="setColor('rosa')">
     <span class="color-label">Rosa <span class="color-box" style="background-color: pink;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="blau">
+    <input type="radio" name="armband-farbe" value="blau" onclick="setColor('blau')">
     <span class="color-label">Blau <span class="color-box" style="background-color: blue;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="gruen">
+    <input type="radio" name="armband-farbe" value="gruen" onclick="setColor('gruen')">
     <span class="color-label">Grün <span class="color-box" style="background-color: green;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="braun">
+    <input type="radio" name="armband-farbe" value="braun" onclick="setColor('braun')"> 
     <span class="color-label">Braun <span class="color-box" style="background-color: brown;"></span></span>
   </label>
 
   <label class="color-option">
-    <input type="radio" name="armband-farbe" value="schwarz">
+    <input type="radio" name="armband-farbe" value="schwarz" onclick="setColor('schwarz')">
     <span class="color-label">Schwarz <span class="color-box" style="background-color: black;"></span></span>
   </label>
 </div>
@@ -304,25 +306,45 @@ function addToCart(name, price) {
       }
     }).render('#paypal-button-container');
   </script>
+    
   <script>
-  document.querySelector('.logo-container img').addEventListener('click', function () {
-    const loginForm = document.getElementById('login-form');
-    if (loginForm.style.display === 'none') {
-      loginForm.style.display = 'block';
-    } else {
-      loginForm.style.display = 'none';
-    }
-  });
-  const farbRadios = document.querySelectorAll('input[name="armband-farbe"]');
-  const bild = document.getElementById('armband-bild');
+const images = {
+  blau: ["bilder/blau1.png", "bilder/blau2.png"],
+  braun: ["bilder/braun1.png", "bilder/braun2.png"],
+  flieder: ["bilder/flieder1.png", "bilder/flieder2.png"],
+  gelb: ["bilder/gelb1.png", "bilder/gelb2.png"],
+  gruen: ["bilder/gruen1.png", "bilder/gruen2.png"],
+  rosa: ["bilder/rosa1.png", "bilder/rosa2.png"],
+  rot: ["bilder/rot1.png", "bilder/rot2.png"],
+  schwarz: ["bilder/schwarz1.png", "bilder/schwarz2.png"]
+};
 
-  farbRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      const farbe = radio.value;
-      bild.src = `bilder/armband_${farbe}.png`;
-      bild.alt = `Armband in ${farbe}`;
-    });
-  });
+let currentColor = "rot";
+let currentIndex = 0;
+
+function setColor(color) {
+  currentColor = color;
+  currentIndex = 0;
+  updateImage();
+}
+
+function updateImage() {
+  const img = document.getElementById("main-image");
+  img.src = images[currentColor][currentIndex];
+}
+
+function prevImage() {
+  currentIndex = (currentIndex - 1 + images[currentColor].length) % images[currentColor].length;
+  updateImage();
+}
+
+function nextImage() {
+  currentIndex = (currentIndex + 1) % images[currentColor].length;
+  updateImage();
+}
+</script>
+
+  
 </script>
 
 </body>
