@@ -279,9 +279,28 @@ button:hover {
 </div>
 
     <p>Preis: 6,90 €</p>
-  <button onclick="addToCart(6.90)">In den Warenkorb</button>
+  
   </div>
   <!-- Weitere Produkte können hier hinzugefügt werden mit gleichem Muster -->
+<!-- Neuer Kaufen-Button, der das Formular anzeigt -->
+<button onclick="zeigeFormular()">Kaufen</button>
+
+<!-- Das Formular mit Adressfeldern (zuerst versteckt) -->
+<div id="checkoutForm" style="display:none; margin-top: 20px;">
+  <h3>Lieferadresse</h3>
+  <form onsubmit="return pruefeUndWeiterleiten(event)">
+    <input type="text" id="vorname" placeholder="Vorname" required><br><br>
+    <input type="text" id="nachname" placeholder="Nachname" required><br><br>
+    <input type="text" id="strasse" placeholder="Straße" required><br><br>
+    <input type="text" id="zusatz" placeholder="Adresszusatz"><br><br>
+    <input type="text" id="plz" placeholder="Postleitzahl" required><br><br>
+    <input type="text" id="stadt" placeholder="Stadt" required><br><br>
+    <input type="text" id="land" placeholder="Land" required><br><br>
+    <input type="email" id="email" placeholder="E-Mail-Adresse" required><br><br>
+    
+    <button type="submit">Weiter zur Zahlung</button>
+  </form>
+</div>
 
   <div id="cart">
     <h2>🛒 Dein Warenkorb</h2>
@@ -547,6 +566,32 @@ function nextImage() {
   updateImage();
 }
 </script>
+</script>
+
+<script>
+  function pruefeUndWeiterleiten(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("liefer-email").value;
+    const vorname = document.getElementById("vorname").value;
+    const nachname = document.getElementById("nachname").value;
+    const strasse = document.getElementById("strasse").value;
+    const zusatz = document.getElementById("zusatz").value;
+    const plz = document.getElementById("plz").value;
+    const stadt = document.getElementById("stadt").value;
+    const land = document.getElementById("land").value;
+
+    if (!email || !vorname || !nachname || !strasse || !plz || !stadt || !land) {
+      alert("Bitte alle Pflichtfelder ausfüllen!");
+      return false;
+    }
+
+    // Wenn alles ausgefüllt ist → weiterleiten
+    window.location.href = "danke.html"; // Hier deine Zielseite
+  }
+</script>
+
+<footer style="text-align: center; padding: 20px; background-color: #f9f9f9;">
 
   
 </script>
