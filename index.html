@@ -282,8 +282,9 @@ button:hover {
   
   </div><!-- Weitere Produkte können hier hinzugefügt werden mit gleichem Muster -->
 <p>Preis: 6,90 €</p>
-<button type="button" onclick="addToCart('Armband', 6.90)">In den Warenkorb</button>
-<button type="button" onclick="zeigeFormular()">Kaufen</button>
+<button type="button" onclick="produktHinzufuegen()">In den Warenkorb</button>
+<button id="kaufButton" onclick="zeigeFormular()" style="display:none;">Kaufen</button>
+
 
 <!-- Das Formular mit Adressfeldern (zuerst versteckt) -->
 <div id="checkoutForm" style="display:none; margin-top: 20px;">
@@ -567,6 +568,23 @@ function nextImage() {
 }
 </script>
 </script>
+// Produkt in den Warenkorb legen und Kaufen-Button anzeigen
+function produktHinzufuegen() {
+  const name = "Armband";
+  const price = 6.90;
+  const selectedColor = document.getElementById("color").value;
+  const selectedAnhaengerName = document.getElementById("anhaenger").value;
+
+  addToCart(name, price, selectedColor, selectedAnhaengerName);
+  zeigeKaufenButton();
+}
+
+function zeigeKaufenButton() {
+  const kaufenButton = document.getElementById("kaufenBtn");
+  if (kaufenButton) {
+    kaufenButton.style.display = "inline-block";
+  }
+}
 
 <script>
   function pruefeUndWeiterleiten(event) {
